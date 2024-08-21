@@ -1,0 +1,18 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+.board-row {
+  display: flex;
+}
+
+.square {
+  height: 34px;
+  width: 34px;
+  border-radius: 0;
+
+  background-color: #fff;
+  border-color: #999;
+}
