@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import calculateWinner from './calculate-winner.js'
+import * as GameEngine from './calculate-winner'
+
+type gameCellValue = string | null
 
 interface SquareProps {
-  value: string | null
+  value: gameCellValue
   onSquareClick: React.MouseEventHandler
 }
 
@@ -15,7 +17,7 @@ function Square({ value, onSquareClick }: SquareProps) {
 }
 
 interface BoardProps {
-  squares: Array<string | null>
+  squares: Array<gameCellValue>
   handleClick: (index: number) => void
 }
 
@@ -45,7 +47,7 @@ function Board({ squares, handleClick }: BoardProps) {
 
 function App() {
   const [evenMove, setEvenMove] = useState(true)
-  const [squares, setSquares] = useState(Array(9).fill(null))
+  const [squares, setSquares] = useState<Array<gameCellValue>>(Array(9).fill(null))
 
   const evenMoveSymbol = '\u{1F48B}',
     oddMoveSymbol = '\u{1F498}'
@@ -66,7 +68,8 @@ function App() {
     setEvenMove(true)
   }
 
-  const winner = calculateWinner(squares)
+  const winner = GameEngine.calculateWinner(squares)
+
   const status = ((winner) => {
     if (winner) {
       return `Победитель: ${winner}`
