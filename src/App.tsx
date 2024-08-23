@@ -2,11 +2,8 @@ import { useState } from 'react'
 import { Board } from './Board'
 import * as GameEngine from './calculate-winner'
 
-const evenMoveSymbol = '\u{1F48B}', // kiss mark
-  oddMoveSymbol = '\u{1F498}' // heart with arrow
-
 function App() {
-  const [evenMove, setEvenMove] = useState(true)
+  const [nextMoveOdd, setNextMoveOdd] = useState(true)
   const [squares, setSquares] = useState(Array(9).fill(null))
 
   function handleClick(index: number) {
@@ -15,25 +12,19 @@ function App() {
     }
 
     const nextSquares = squares.slice()
-    nextSquares[index] = evenMove ? evenMoveSymbol : oddMoveSymbol
+    nextSquares[index] = GameEngine.manageCell(nextMoveOdd) // ? evenMoveSymbol : oddMoveSymbol
     setSquares(nextSquares)
-    setEvenMove(!evenMove)
+    setNextMoveOdd(!nextMoveOdd)
   }
 
   function refresh() {
     setSquares(Array(9).fill(null))
-    setEvenMove(true)
+    setNextMoveOdd(true)
   }
 
   const winner = GameEngine.calculateWinner(squares)
 
-  const status = ((winner) => {
-    if (winner) {
-      return `Победитель: ${winner}`
-    } else {
-      return `Следующий ход: ${evenMove ? evenMoveSymbol : oddMoveSymbol}`
-    }
-  })(winner)
+  const status = GameEngine.calculateGameStatus(winner, nextMoveOdd)
 
   return (
     <>

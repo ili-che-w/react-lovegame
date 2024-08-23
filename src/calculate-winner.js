@@ -1,4 +1,17 @@
+const evenMoveSymbol = '\u{1F48B}', // kiss mark
+  oddMoveSymbol = '\u{1F498}' // heart with arrow
+
+export function manageCell(nextMoveOdd) {
+  return nextMoveOdd ? evenMoveSymbol : oddMoveSymbol
+}
+
 export function calculateWinner(squares) {
+  const emptySquares = squares.filter((square) => square === null)
+
+  if (!emptySquares.length) {
+    return 'draw'
+  }
+
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -16,4 +29,16 @@ export function calculateWinner(squares) {
     }
   }
   return null
+}
+
+export function calculateGameStatus(winner, nextMoveOdd) {
+  if (winner) {
+    if (winner === 'draw') {
+      return 'Ничья'
+    } else {
+      return `Победитель: ${winner}`
+    }
+  } else {
+    return `Следующий ход: ${nextMoveOdd ? evenMoveSymbol : oddMoveSymbol}`
+  }
 }
