@@ -1,56 +1,13 @@
 import { useState } from 'react'
+import { Board } from './Board'
 import * as GameEngine from './calculate-winner'
 
-type gameCellValue = string | null
-
-interface SquareProps {
-  value: gameCellValue
-  onSquareClick: React.MouseEventHandler
-}
-
-function Square({ value, onSquareClick }: SquareProps) {
-  return (
-    <button className="square" onClick={onSquareClick}>
-      {value}
-    </button>
-  )
-}
-
-interface BoardProps {
-  squares: Array<gameCellValue>
-  handleClick: (index: number) => void
-}
-
-function Board({ squares, handleClick }: BoardProps) {
-  return (
-    <div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
-    </div>
-  )
-}
+const evenMoveSymbol = '\u{1F48B}', // kiss mark
+  oddMoveSymbol = '\u{1F498}' // heart with arrow
 
 function App() {
   const [evenMove, setEvenMove] = useState(true)
-  const [squares, setSquares] = useState<Array<gameCellValue>>(Array(9).fill(null))
-
-  const evenMoveSymbol = '\u{1F48B}',
-    oddMoveSymbol = '\u{1F498}'
+  const [squares, setSquares] = useState(Array(9).fill(null))
 
   function handleClick(index: number) {
     if (squares[index]) {
@@ -85,7 +42,7 @@ function App() {
       </div>
 
       <div style={{ display: 'flex' }}>
-        <Board squares={squares} handleClick={handleClick} />
+        <Board squares={squares} onSquareClick={handleClick} />
 
         <div style={{ marginLeft: '10px', display: 'flex' }}>
           <button onClick={refresh}>Обнулить</button>
